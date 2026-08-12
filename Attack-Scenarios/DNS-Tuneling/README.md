@@ -69,6 +69,8 @@ Apply:
 ```text
 dns.flags.response == 0
 ```
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/DNS-Requests.png)
+
 
 Now inspect the DNS query packets for suspicious indicators.
 
@@ -77,6 +79,8 @@ Now inspect the DNS query packets for suspicious indicators.
 ## Indicator 1 — Long DNS Query Names
 
 ### Evidence
+
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/Suspcious_Queries.png)
 
 The PCAP contains long query names such as:
 
@@ -118,6 +122,8 @@ A very long DNS query name is not automatically malicious, but when many long qu
 
 ### Evidence
 
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/Random_Domains.png)
+
 The PCAP contains unusual subdomains such as:
 
 ```text
@@ -137,6 +143,7 @@ www.example.com
 mail.example.com
 api.example.com
 ```
+
 
 ### Why is this suspicious?
 
@@ -160,6 +167,8 @@ Random-looking DNS labels are suspicious when they appear repeatedly and are com
 
 ### Evidence
 
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/Random_Domains.png)
+
 The PCAP repeatedly communicates with:
 
 ```text
@@ -173,6 +182,8 @@ zi03....pirate.sea
 zi04....pirate.sea
 laegpumi....pirate.sea
 ```
+
+
 
 ### Why is this suspicious?
 
@@ -198,6 +209,8 @@ Repeated communication with one domain using many changing subdomains is a stron
 
 ### Evidence
 
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/DNS-Requests.png)
+
 The packet timestamps show several DNS queries occurring very close together:
 
 ```text
@@ -209,6 +222,8 @@ The packet timestamps show several DNS queries occurring very close together:
 ```
 
 The requests are generated within milliseconds.
+
+
 
 ### Why is this suspicious?
 
@@ -239,6 +254,8 @@ creates a much stronger tunneling pattern.
 ## Indicator 5 — Large Number of Unique Subdomains
 
 ### Evidence
+
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/Random_Domains.png)
 
 The same parent domain:
 
@@ -275,7 +292,7 @@ Now apply:
 ```text
 dns.flags.response == 1
 ```
-
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/Dns_Response.png)
 We inspect the responses associated with the suspicious DNS queries.
 
 ---
@@ -283,6 +300,9 @@ We inspect the responses associated with the suspicious DNS queries.
 ## Indicator 6 — Unusual NULL DNS Record
 
 ### Evidence
+
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/Suspicious_NULL_Record.png)
+
 
 The PCAP contains:
 
@@ -298,6 +318,7 @@ In the Wireshark packet details, we can see:
 Answers
     └── NULL (10)
 ```
+
 
 ### What is normally expected?
 
@@ -361,6 +382,8 @@ This is suspicious because DNS is being used to carry information rather than on
 ## Indicator 7 — Data Inside NULL Record
 
 ### Evidence
+
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/Suspicious_NULL_Record.png)
 
 The Wireshark packet details show:
 
@@ -522,19 +545,7 @@ The technique covers abuse of DNS as an application-layer communication protocol
 
 ---
 
-# 9. Key Interview Takeaway
-
-If asked:
-
-**"How would you investigate DNS tunneling in Wireshark?"**
-
-A good answer is:
-
-> "I would first filter DNS traffic using `dns`. Then I would separate queries and responses using `dns.flags.response == 0` and `dns.flags.response == 1`. I would look for long and random-looking subdomains, repeated queries to the same parent domain, many unique subdomains, high query frequency, unusual DNS record types, and data carried inside DNS responses. In this PCAP, the combination of changing long subdomains and NULL records containing data is consistent with iodine-based DNS tunneling."
-
----
-
-# 10. Evidence Collected
+# 9. Evidence Collected
 
 The investigation provides the following evidence:
 
@@ -549,19 +560,6 @@ The investigation provides the following evidence:
 * NULL DNS records
 * Data inside NULL responses
 * Packet-level hexadecimal/ASCII evidence
-
-These screenshots can be added to the GitHub repository under:
-
-```text
-screenshots/
-└── dns-tunneling/
-    ├── 01-dns-filter.png
-    ├── 02-long-query.png
-    ├── 03-changing-subdomains.png
-    ├── 04-high-frequency.png
-    ├── 05-null-record.png
-    └── 06-response-data.png
-```
 
 ---
 
