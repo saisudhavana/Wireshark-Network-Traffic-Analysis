@@ -47,7 +47,6 @@ The following protocols are analyzed at packet level:
 | HTTP | GET, POST, HTTP headers |
 | TLS | TLS Handshake and encrypted traffic |
 | ICMP | Echo Request, Echo Reply |
-| SMTP | Email communication and SMTP commands |
 
 ---
 
