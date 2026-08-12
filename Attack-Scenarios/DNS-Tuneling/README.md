@@ -1,4 +1,3 @@
-````markdown
 # DNS Tunneling Case Study: Wireshark Network Forensics
 
 This case study documents the packet-level investigation of **DNS tunneling** using Wireshark.
