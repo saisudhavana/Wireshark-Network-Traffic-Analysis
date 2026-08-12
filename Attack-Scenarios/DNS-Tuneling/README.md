@@ -17,7 +17,10 @@ This module documents the step-by-step packet-level investigation of a covert co
 
 ## 2. Inspecting Outbound DNS Queries
 Apply the filter `dns.flags.response == 0` to check outbound network calls for these 5 distinct behavioral indicators:
-Attack-Scenarios/DNS-Tuneling/Screenshots/DNS-Requests.png
+
+![](/Attack-Scenarios/DNS-Tuneling/Screenshots/DNS-Requests.png)
+
+
 
 ### Indicator 1: Long DNS Query Names
 *   **Observed Evidence:** The captured query strings contain heavily elongated domain paths (e.g., `laegpumiplhhpz12ynd1efljwlkjcgwy.pirate.sea`). The prefix string before the parent domain is unusually long.
