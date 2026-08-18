@@ -45,4 +45,88 @@ Normal internet traffic looks like a friendly, slow conversation. Port scanning 
 *   **Example:** A public customer on Flipkart has no business touching **Port 22 (SSH)** or **Port 3389 (Remote Desktop)**. When an unknown external IP address is caught probing these specific ports, it indicates a threat actor hunting for a backdoor to take over the network infrastructure.
 
 ---
-*Educational repository documentation for security analysis and incident response mapping.*
+# 🔬 Part 2: Technical Wireshark Investigation
+
+## 1. Environment Setup & Packet Acquisition
+
+### Step 1 — Download the PCAP
+Download the practice reconnaissance capture file from:
+- [Practical Packet Analysis Portscan Trace](https://githubusercontent.com)
+
+### Step 2 — Open the PCAP in Wireshark
+Open the downloaded file `portscan.pcap` inside **Wireshark**.
+
+---
+
+## 2. Port Scan Traffic Filtering
+
+We isolate the scanning traffic by focusing purely on the outbound connection requests.
+
+### Outbound Connection Probes (SYN Queries)
+Use this filter to see all requests sent by the attacker:
+```text
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+```
+
+---
+
+## 3. Inspecting Port Scan Indicators
+
+### Indicator 1 — Massive Volume of Outbound SYN Requests
+#### Evidence
+The packet list pane shows a single source IP address (`10.100.25.14`) rapidly sending thousands of outbound `[SYN]` packets to a single destination IP (`10.100.18.12`).
+
+#### Wireshark Path
+```text
+Transmission Control Protocol └── Flags └── .... ..1. .... = Syn: Set
+```
+
+#### 📸 Wireshark Evidence: Outbound Scan Volume
+![](Screenshots/outbound_syn_scan.png)
+
+---
+
+### Indicator 2 — Multi-Port Variety Shuffling (Non-Sequential)
+#### Evidence
+The `Destination Port` column shows the attacker testing a wide variety of completely different application ports (like **139, 135, 445, 80, 22, 23, 21**) in a mixed order. 
+
+#### Why is this suspicious?
+A regular user opens a connection to just one or two ports (like 443 for browsing). A single computer hitting a massive variety of different backend services all at once proves it is a scanner searching for any possible weak spot.
+
+#### 📸 Wireshark Evidence: Diverse Port Probing
+![](Screenshots/half_open_stealth.png)
+
+---
+
+### Indicator 3 — Uniform Robotic Timestamps
+#### Evidence
+The packet timestamps and the `Time Delta` column show requests arriving at a perfectly fixed mathematical speed of exactly **0.10 seconds (100 milliseconds)** apart.
+
+#### 📸 Wireshark Evidence: Delta Time Analysis
+![](Screenshots/robotic_timing_deltas.png)
+
+---
+
+## 4. Inspecting the Port Feedback Loop (The Filtered Verdict)
+
+### Indicator 4 — One-Way Traffic Stream (Zero Server Responses)
+#### Evidence
+When looking at the entire packet capture, there are **only outbound `[SYN]` packets**. There are zero incoming `[SYN, ACK]` packets and zero incoming `[RST]` packets from the target machine.
+
+#### Why is this important to mention?
+This proves the attack failed! Because the server or its firewall completely **dropped and ignored** every single packet, the hacker received a total wall of silence. The attacker learned zero software version numbers and zero open ports. The network defense successfully stopped the reconnaissance.
+
+#### 📸 Wireshark Evidence: Firewall Dropping Probes
+![](Screenshots/rst_responses.png)
+
+---
+
+## 5. Wireshark Investigation Summary
+
+| Indicator | Evidence in PCAP | Why Suspicious / Forensic Meaning |
+| :--- | :--- | :--- |
+| **Monolithic SYN Streams** | `tcp.flags.syn==1 && tcp.flags.ack==0` | High-volume outbound requests missing completed handshakes. |
+| **Multi-Port Shuffling** | Variety of ports tested (135, 445, 80, 22) | Confirms an active probe scanning across different network services. |
+| **Fixed Time Cadence** | `0.10s` intervals between packets | Proves programmatic script automation over normal human traffic. |
+| **One-Way Traffic (No Replies)** | 100% `SYN` packets, 0% Replies | Hard forensic evidence that a firewall is actively filtering and dropping the scan. |
+
