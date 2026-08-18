@@ -177,7 +177,7 @@ However, a MAC address is not absolute proof of one attacker in every PCAP. If t
 
 ### Step 1 — Download the PCAP
 Download the practice attack trace file from the public repository:
-- [Direct PCAP Download: pkt.TCP.synflood.spoofed.pcap]([https://githubusercontent.com](https://github.com/StopDDoS/packet-captures/blob/main/pkt.TCP.synflood.spoofed.pcap))
+- [Direct PCAP Download: pkt.TCP.synflood.spoofed.pcap](https://github.com/StopDDoS/packet-captures/blob/main/pkt.TCP.synflood.spoofed.pcap)
 
 ### Step 2 — Open the PCAP in Wireshark
 Open the downloaded file inside **Wireshark**.
