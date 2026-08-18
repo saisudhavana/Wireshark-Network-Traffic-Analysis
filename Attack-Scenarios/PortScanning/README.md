@@ -82,7 +82,7 @@ Transmission Control Protocol └── Flags └── .... ..1. .... = Syn: Se
 ```
 
 #### 📸 Wireshark Evidence: Outbound Scan Volume
-![](Attack-Scenarios/PortScanning/Screenshots/Port_Scanning.png)
+![](/Attack-Scenarios/PortScanning/Screenshots/Port_Scanning.png)
 
 ---
 
@@ -94,7 +94,7 @@ The `Destination Port` column shows the attacker testing a wide variety of compl
 A regular user opens a connection to just one or two ports (like 443 for browsing). A single computer hitting a massive variety of different backend services all at once proves it is a scanner searching for any possible weak spot.
 
 #### 📸 Wireshark Evidence: Diverse Port Probing
-![](Attack-Scenarios/PortScanning/Screenshots/Ports.png)
+![](/Attack-Scenarios/PortScanning/Screenshots/Ports.png)
 
 ---
 
@@ -103,7 +103,7 @@ A regular user opens a connection to just one or two ports (like 443 for browsin
 The packet timestamps and the `Time Delta` column show requests arriving at a perfectly fixed mathematical speed of exactly **0.10 seconds (100 milliseconds)** apart.
 
 #### 📸 Wireshark Evidence: Delta Time Analysis
-![](Attack-Scenarios/PortScanning/Screenshots/Ports.png)
+![](/Attack-Scenarios/PortScanning/Screenshots/Ports.png)
 
 ---
 
@@ -117,7 +117,7 @@ When looking at the entire packet capture, there are **only outbound `[SYN]` pac
 This proves the attack failed! Because the server or its firewall completely **dropped and ignored** every single packet, the hacker received a total wall of silence. The attacker learned zero software version numbers and zero open ports. The network defense successfully stopped the reconnaissance.
 
 #### 📸 Wireshark Evidence: Firewall Dropping Probes
-![](Attack-Scenarios/PortScanning/Screenshots/portscanning_SynPacket.png)
+![](/Attack-Scenarios/PortScanning/Screenshots/portscanning_SynPacket.png)
 
 ---
 
