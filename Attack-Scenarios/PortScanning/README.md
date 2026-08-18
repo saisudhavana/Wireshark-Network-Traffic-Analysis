@@ -1,6 +1,6 @@
-# 🚪 Port Scanning Fundamentals: Cyber Reconnaissance Explained
+#  Port Scanning Fundamentals: Cyber Reconnaissance Explained
 
-## 💡 What is Port Scanning?
+##  What is Port Scanning?
 Every computer server on the internet has a single IP address (like a street address), but it needs to do many different jobs at once. To stay organized, a server has **65,535 virtual communication doors** called **Ports**.
 *   **Port 443:** The secure door used for web browsing (HTTPS).
 *   **Port 22:** The locked backend door used by system engineers to manage the server (SSH).
@@ -12,7 +12,7 @@ Think of a server as a **massive shopping mall** at 3:00 AM. A port scan is the 
 
 ---
 
-## 🔓 Why and How Attackers Abuse It?
+##  Why and How Attackers Abuse It?
 
 Attackers cannot simply "hack a computer" blindly. They must target a **specific software application** running behind an open door on that computer. 
 
