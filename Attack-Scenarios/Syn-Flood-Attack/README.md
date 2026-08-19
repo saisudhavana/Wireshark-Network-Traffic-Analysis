@@ -1,4 +1,4 @@
-# 🚪 TCP SYN Flood Attack Investigation
+# TCP SYN Flood Attack Investigation
 
 This project explains how a **TCP SYN Flood attack** works and demonstrates how to investigate the attack using **Wireshark and a PCAP file**.
 
