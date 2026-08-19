@@ -163,7 +163,6 @@ The technique depends on **how the attacker transfers the data**.
 ### Step 1 — Download the PCAP
 Download the official data exfiltration practice capture file from the laboratory repository:
 - [Direct Repository File: 05-data-exfiltration.pcap](https://github.com/geezsecurity/Pcap-Analyzer/blob/master/pcaps/05-data-exfiltration.pcap)
-- [Direct Raw File Download Link](https://githubusercontent.com)
 
 ### Step 2 — Open the PCAP in Wireshark
 Open the downloaded file `05-data-exfiltration.pcap` inside **Wireshark**.
