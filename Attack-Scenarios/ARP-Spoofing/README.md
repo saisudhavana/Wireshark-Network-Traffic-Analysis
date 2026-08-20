@@ -158,22 +158,23 @@ To find the attack packets, type these simple commands one by one into the top b
 arp
 ```
 *   **What it does:** This shows *only* the Address Resolution Protocol traffic and hides everything else. It lets us see the massive storm of routing packets filling the network.
-*   **📸 Screenshot Link:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-1.png)`
+  #### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-1.png)
+  
 
 ### 2.2 Separating Requests and Replies
 *   **`arp.opcode == 1` (ARP Request):** This shows packets where a computer is asking a question to the network: *"Who has this IP address? Please tell me your MAC address."*
-         **📸 Screenshot Link:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-2.png)`
+       #### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-2.png)
     
 *   **`arp.opcode == 2` (ARP Reply):** This shows packets where a computer is giving an answer: *"I have that IP address, and this is my physical MAC address."*
 
-         **📸 Screenshot Link:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-3.png)`
+     #### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-3.png)
     
 ### 2.3 The Error Detection Filter
 ```text
 arp.duplicate-address-detected
 ```
 *   **What it does:** This shows packets where Wireshark caught an error or an attack. It instantly highlights lines in **Yellow and Black** because something is wrong with the network layout.
-*   **📸 Screenshot:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-34.png)`
+#### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-34.png)
 
 ---
 
@@ -184,7 +185,7 @@ By looking closely at the file, your 2-hour investigation reveals the exact step
 ### 3.1 Analyzing Packet 22 (The Attacker's First Move)
 When we open **Packet 22**, we can see a normal computer introduction on the network:
 
- **📸 Screenshot:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-5.png)`
+#### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-5.png)
 
 #### What you see in the columns:
 *   **Source Column:** This shows **`PCSSystemtec_2d:f8:5a`**. This is the real, physical network card address (MAC address) of the machine sending the packet.
@@ -198,14 +199,14 @@ When we open **Packet 22**, we can see a normal computer introduction on the net
 *   **Target MAC Address:** `00:00:00:00:00:00`
     *   *Why it is all zeros:* Because this is a request question, the computer **does not know** the router's physical card address yet. It leaves this box blank with zeros so the network switches will pass the question around until the real router responds.
  
-       **📸 Screenshot:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-6.png)`
+ #### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-6.png)
 
 ---
 
 ### 3.2 Analyzing Packet 33 (The Victim's Move)
 Next, let's look at **Packet 33** to see another computer on the same network:
 
- **📸 Screenshot:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-7.png)`
+#### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-7.png)
 
 #### What you see in the columns:
 *   **Source Column:** This shows **`PCSSystemtec_b8:b7:58`**.
@@ -236,7 +237,7 @@ By looking at these two early packets, we can build a clean table to remember wh
 
 In **Packet 3564**, the attack officially happens. This packet is highly dangerous and catches the hacker red-handed:
 
- **📸 Screenshot:** `![](/Attack-Scenarios/ARP-Spoofing/Screenshots/arp-8.png)`
+#### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-8.png)
 
 #### Why it is malicious and how the forgery happened:
 The packet text inside the Info column claims to be a normal answer from the internet router, saying: **`192.168.1.1 is at 08:00:27:2d:f8:5a`**.
