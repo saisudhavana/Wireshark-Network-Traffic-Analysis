@@ -174,7 +174,7 @@ arp
 arp.duplicate-address-detected
 ```
 *   **What it does:** This shows packets where Wireshark caught an error or an attack. It instantly highlights lines in **Yellow and Black** because something is wrong with the network layout.
-#### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-34.png)
+#### 📸 Wireshark Evidence:![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-8.png)
 
 ---
 
@@ -266,7 +266,7 @@ It is easy to think this should be called a "Duplicate MAC" warning, but Wiresha
 Wireshark is warning you that **two entirely different physical computers are claiming they own the exact same IP address (`192.168.1.1`) at the same time**. Because the IP address identity has been cloned across two separate devices on the same network, Wireshark flags it as an infrastructure-level **Duplicate IP Conflict**.
 
 #### 📸 Wireshark Evidence:
-![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-34.png)
+![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-8.png)
 
 ---
 
