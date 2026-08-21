@@ -297,11 +297,11 @@ Wireshark is warning you that **two entirely different physical computers are cl
 The packet-level forensic analysis of `arp-storm.pcap` provides absolute, definitive proof of a successful **Adversary-in-the-Middle (MITM) attack** driven by local network cache poisoning. 
 
 ### Final Forensic Verdict
-1. **The Attacker:** Host machine **`192.168.1.105`** (`08:00:27:2d:f8:5a`) successfully hijacked local routing channels.
-2. **The Victim:** Host machine **`192.168.1.104`** (`08:00:27:b8:b7:58`) was completely fooled into routing its data to the wrong node.
-3. **The Compromise:** By sending thousands of unauthorized, fake ARP replies, the attacker effectively stole the identity of the default gateway router (**`192.168.1.1`**). 
+*   **The Disguise:** Finally, it is proved that the attacker is trying to pretend to be the default gateway router. The attacker completely lies about the identity by using the **Router’s IP address (`192.168.1.1`)** inside the `Sender IP` box.
+*   **The Hardware Proof:** However, because the attacker is the one physically sending this malicious reply to the victim (**`192.168.1.104`**), the `Source MAC` address is not the router's real MAC. Instead, the attacker's own physical hardware card signature (**`2d:f8:5a`**) is printed clearly in the packet rows. 
 
-The investigation successfully validated all target parameters by unmasking the core structural mismatch between Layer-3 digital IP addresses and Layer-2 physical hardware MAC signatures. The perimeter controls successfully logged the active collision, triggering the enterprise-level `Duplicate IP address detected` warning flag inside Wireshark's expert tracking engine.
+By comparing the initial clean baselines against **Packet 3564**, the structural mismatch between Layer-3 digital IP labels and Layer-2 physical hardware fingerprints is completely exposed and proved. The network defense successfully caught this identity theft, triggering the enterprise-level `Duplicate IP address detected` warning flag inside Wireshark's expert tracking engine.
+
 
 ---
 
