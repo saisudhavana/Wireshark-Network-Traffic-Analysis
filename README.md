@@ -1,115 +1,43 @@
-# Wireshark Network Traffic Analysis & Threat Investigation
+# 🌐 Network Forensics & Threat Hunting Archive
+### 🔬 Packet-Level Incident Response Case Studies with Wireshark
 
-Hands-on Wireshark network traffic analysis, protocol investigation, and attack detection using PCAPs, MITRE ATT&amp;CK, and KQL.
-
-## Overview
-
-This repository documents my hands-on learning and investigation of
-network traffic using Wireshark.
-
-The project is divided into two sections:
-
-1. Protocol Analysis
-2. Attack Scenario Investigation
-
-The first section focuses on understanding normal network protocols
-and identifying how they appear in packet captures.
-
-The second section applies this knowledge to investigate suspicious
-network activity and security scenarios.
+This repository serves as a dedicated network security portfolio documenting the forensic triage, packet-layer mechanics, and blue-team mitigation strategies for critical threat vectors. Every case study is backed by live packet capture (`.pcap`) deep-dives, protocol-layer analysis, and MITRE ATT&CK framework mapping.
 
 ---
 
-## Objectives
+## 🗺️ Master Security Scenario Index
 
-- Understand common network protocols at packet level
-- Analyze network traffic using Wireshark
-- Identify normal vs suspicious traffic patterns
-- Investigate real-world attack scenarios using PCAP files
-- Develop network threat-hunting skills
-- Map relevant attacks to MITRE ATT&CK
-- Recreate detection logic using KQL where applicable
-- Understand how Microsoft Defender and Microsoft Sentinel
-  can detect and respond to network threats
+| Project Directory | Core Protocol | Targeted Layer | MITRE ATT&CK ID | Primary Key Forensic Indicator |
+| :--- | :--- | :--- | :--- | :--- |
+| **[01-DNS-Tunneling](./01-DNS-Tunneling/)** | DNS (UDP/53) | L7: Application | `T1071.004` | High-frequency TXT records with high-entropy subdomain strings. |
+| **[02-Port-Scanning](./02-Port-Scanning/)** | TCP | L4: Transport | `T1046` | High-velocity half-open `[SYN]` sweeps across multiple ports. |
+| **[03-SYN-Flood](./03-SYN-Flood/)** | TCP | L4: Transport | `T1498.001` | High-volume `[SYN]` blast targeting Port 25565 sharing a single Source MAC. |
+| **[04-Data-Exfiltration](./04-Data-Exfiltration/)** | SSL/TLS (HTTPS) | L7: Application | `T1567.002` | Monolithic outbound streams with locked `1454-byte` payload blocks. |
+| **[05-ARP-Spoofing-MITM](./05-ARP-Spoofing-MITM/)** | ARP | L2: Data-Link | `T1557.001` | Forged gateway IP replies mapping `192.168.1.1` to a workspace MAC. |
 
 ---
 
-# 01 — Protocol Analysis
+## 🔬 Core Wireshark Investigation Summaries
 
-The following protocols are analyzed at packet level:
+### 🛠️ 1. DNS Tunneling (Command & Control / Covert Channel)
+*   **The Scenario:** An internal infected asset utilizes the Domain Name System protocol to bypass perimeter firewalls, establishing a hidden Command & Control (C2) communication channel to leak data out of the network block.
+*   **Forensic Finding:** Identification of highly repetitive UDP Port 53 queries containing random-looking, long hexadecimal subdomains requesting `TXT` and `CNAME` records from an unapproved external authoritative name server.
 
-| Protocol | Topics Covered |
-|---|---|
-| ARP | ARP Request, ARP Reply, MAC resolution |
-| DNS | DNS Query, Response, Record Types |
-| DHCP | Discover, Offer, Request, ACK |
-| TCP | 3-Way Handshake, Flags, Ports |
-| HTTP | GET, POST, HTTP headers |
-| TLS | TLS Handshake and encrypted traffic |
-| ICMP | Echo Request, Echo Reply |
+### 🔍 2. Port Scanning (Reconnaissance Phase)
+*   **The Scenario:** A local threat actor executes a rapid host and service discovery sweep across the internal network subnet to find active servers and software vulnerabilities.
+*   **Forensic Finding:** Isolated host terminal firing hundreds of TCP `[SYN]` packets across sequential destination ports within milliseconds, monitoring for `[SYN, ACK]` or `[RST, ACK]` replies to map open sockets.
 
----
+### 🌊 3. TCP SYN Flood Attack (Denial of Service)
+*   **The Scenario:** An automated script targets a production gaming server (**Port 25565 - Minecraft**) to exhaust its connection memory space (**SYN Backlog Queue**), crashing the multiplayer application instance.
+*   **Forensic Finding:** A sub-millisecond stream of thousands of fake `[SYN]` packets targeting a single port. While the digital Layer-3 IP addresses change constantly to mimic a DDoS, the Layer-2 physical **Source MAC Address stays perfectly identical**, mathematically proving an internal Spoofed DoS attack.
 
-# 02 — Attack Scenario Investigation
+### 📦 4. Data Exfiltration (Encrypted Web Theft)
+*   **The Scenario:** A compromised back-office machine consolidates customer database logs into a compressed staging file and dumps the data directly to an unapproved external cloud storage repository.
+*   **Forensic Finding:** Analysis of an encrypted HTTPS/SSL pipeline over Port 443 showing a heavy upload-to-download imbalance. The automated script streams uninterrupted blocks of maximum transmission capacity (**locked payload lengths of `1454 bytes`**) at microsecond automated pacing.
 
-The following security scenarios are investigated using
-Wireshark and PCAP files:
-
-- DNS Tunneling
-- Port Scanning
-- SYN Scanning
-- SYN Flood
-- ICMP Flood
-- Data Exfiltration
-- C2 Beaconing
-- Man-in-the-Middle Attacks
-- Malware Network Traffic
-- Additional network-based attack scenarios
-
-Each investigation focuses on:
-
-1. Understanding the attack
-2. Investigating the PCAP in Wireshark
-3. Identifying suspicious network indicators
-4. Collecting packet-level evidence
-5. Mapping to MITRE ATT&CK where applicable
-6. Recreating detection logic using KQL
-7. Understanding MDE/Sentinel detection
-8. Documenting remediation steps
+### 🎭 5. ARP Spoofing (Adversary-in-the-Middle Routing Hijack)
+*   **The Scenario:** An internal attacker machine intercepts the communication path between a target workstation (`192.168.1.104`) and the default network gateway router (`192.168.1.1`) to sniff data traffic frames in real time.
+*   **Forensic Finding:** Dissection of forged unsolicited ARP replies where the attacker IP (`192.168.1.105`) writes the router's IP into the sender header but appends their own hardware MAC address card (`2d:f8:5a`). This creates a structural collision, triggering Wireshark’s internal expert warning: `[Duplicate IP address detected for 192.168.1.1]`.
 
 ---
-
-# Tools
-
-Wireshark → practical PCAP investigation ✅
-KQL / Sentinel → detection logic and hunting query ✅
-MITRE ATT&CK → mapping ✅
-
----
-
-# Investigation Methodology
-
-The general investigation process used throughout this project is:
-
-PCAP
-↓
-Protocol Filtering
-↓
-Traffic Analysis
-↓
-Suspicious Indicators
-↓
-Packet-Level Evidence
-↓
-MITRE ATT&CK Mapping
-↓
-KQL Detection Logic
-↓
-Remediation
-
----
-
-# Disclaimer
-
-The PCAP files used in this repository are used for
-educational and security-analysis purposes.
+*Portfolio maintained for network traffic analysis verification, incident triage tracking, and packet-level forensic validation.*
