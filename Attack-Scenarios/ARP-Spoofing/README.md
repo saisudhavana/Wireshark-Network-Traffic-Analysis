@@ -233,7 +233,29 @@ By looking at these two early packets, we can build a clean table to remember wh
 
 ---
 
-### 3.4 Dissecting Packet 3564 (The Active Hacking Identity Theft)
+### 3.4 Analyzing Packet 35 (Identifying the Real Router MAC Address)
+Before investigating the spoofed ARP reply in Packet 3564, we need to establish the legitimate MAC address of the default gateway. Packet 35 provides the original, authentic ARP response from the legitimate router.
+
+#### 📸 Wireshark Evidence:
+![]( /Attack-Scenarios/ARP-Spoofing/Screenshots/arp-9.png)
+
+#### What you see in the columns:
+*   **Source Column:** This shows **`PCSSystemtec_5e:01:7c`**.
+*   **Info Column:** This reads **`192.168.1.1 is at 08:00:27:5e:01:7c`**
+    *   *What this means:* The core router is talking directly back to the network and confirming its real physical location. 
+
+#### What you see in the Middle Pane (ARP Header details):
+*   **Sender IP Address:** `192.168.1.1` (The true default gateway router).
+*   **Sender MAC Address:** `08:00:27:5e:01:7c` (The authentic hardware card signature ending in `7c`).
+*   **Target IP Address:** `192.168.1.104` (The innocent host machine receiving the answer).
+*   **Target MAC Address:** `08:00:27:b8:b7:58` (The physical hardware map of the host machine).
+
+This packet is extremely important because it gives us the trusted baseline identity of the router. We will compare this true MAC address against later malicious ARP replies claiming to represent `192.168.1.1`.
+
+
+
+---
+### 3.5 Dissecting Packet 3564 (The Active Hacking Identity Theft)
 
 In **Packet 3564**, the attack officially happens. This packet is highly dangerous and catches the hacker red-handed:
 
