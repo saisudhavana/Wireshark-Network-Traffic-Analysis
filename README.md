@@ -9,11 +9,11 @@ This repository serves as a dedicated network security portfolio documenting the
 
 | Project Directory | Core Protocol | Targeted Layer | MITRE ATT&CK ID | Primary Key Forensic Indicator |
 | :--- | :--- | :--- | :--- | :--- |
-| **[01-DNS-Tunneling](./01-DNS-Tunneling/)** | DNS (UDP/53) | L7: Application | `T1071.004` | High-frequency TXT records with high-entropy subdomain strings. |
-| **[02-Port-Scanning](./02-Port-Scanning/)** | TCP | L4: Transport | `T1046` | High-velocity half-open `[SYN]` sweeps across multiple ports. |
-| **[03-SYN-Flood](./03-SYN-Flood/)** | TCP | L4: Transport | `T1498.001` | High-volume `[SYN]` blast targeting Port 25565 sharing a single Source MAC. |
-| **[04-Data-Exfiltration](./04-Data-Exfiltration/)** | SSL/TLS (HTTPS) | L7: Application | `T1567.002` | Monolithic outbound streams with locked `1454-byte` payload blocks. |
-| **[05-ARP-Spoofing-MITM](./05-ARP-Spoofing-MITM/)** | ARP | L2: Data-Link | `T1557.001` | Forged gateway IP replies mapping `192.168.1.1` to a workspace MAC. |
+| **[01-DNS-Tunneling](/Attack-Scenarios/DNS-Tuneling)** | DNS (UDP/53) | L7: Application | `T1071.004` | High-frequency TXT records with high-entropy subdomain strings. |
+| **[02-Port-Scanning](/Attack-Scenarios/PortScanning)** | TCP | L4: Transport | `T1046` | High-velocity half-open `[SYN]` sweeps across multiple ports. |
+| **[03-SYN-Flood](/Attack-Scenarios/Syn-Flood-Attack)** | TCP | L4: Transport | `T1498.001` | High-volume `[SYN]` blast targeting Port 25565 sharing a single Source MAC. |
+| **[04-Data-Exfiltration](/Attack-Scenarios/Data-Exfiltration)** | SSL/TLS (HTTPS) | L7: Application | `T1567.002` | Monolithic outbound streams with locked `1454-byte` payload blocks. |
+| **[05-ARP-Spoofing-MITM](/Attack-Scenarios/ARP-Spoofing)** | ARP | L2: Data-Link | `T1557.001` | Forged gateway IP replies mapping `192.168.1.1` to a workspace MAC. |
 
 ---
 
